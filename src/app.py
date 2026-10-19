@@ -26,6 +26,12 @@ for mensagem in st.session_state.historico:
 
 pergunta = st.chat_input("Pergunte sobre trocas, frete, pagamento, rastreio ou garantia")
 
+LIMITE_PERGUNTAS = 10
+perguntas_feitas = sum(1 for m in st.session_state.historico if m["papel"] == "user")
+if perguntas_feitas >= LIMITE_PERGUNTAS:
+    st.info("Limite de perguntas desta demonstração atingido. Obrigado por testar!")
+    st.stop()
+
 if pergunta:
     st.session_state.historico.append({"papel": "user", "texto": pergunta})
     with st.chat_message("user"):
